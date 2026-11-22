@@ -1,11 +1,16 @@
+
 # Snowball — Self-Hosted AMD/ASRock BC-250 AI Server
+<img src="images/MechanizedSnowball.webp" alt="setup" width="25%">
 
 **Snowball** is a custom-tuned, privacy-focused local AI inference and RAG server built around the **ASRock BC-250** compute board (powered by the PlayStation 5-derived AMD *Ariel / Oberon* APU) running **CachyOS Linux**.
 
 The system is engineered to balance high-throughput local LLM inference (**Gemma 4 26B** via `llama-server` with the Vulkan backend) with minimal idle power consumption using custom SMU frequency locking, CPU C-state power management, and automated Fish shell control functions.
 
-> **[IMAGE PLACEHOLDER: Full Hardware & Server Build Overview]**  
-> *Replace this block with a photograph of the assembled BC-250 rig, PSU, and chassis layout (`docs/images/hardware-overview.jpg`).*
+<p align="left">
+  <img src="images/setup.png" alt="setup" width="54%">
+  <img src="images/setup2.JPG" alt="setup" width="40%">
+</p>
+
 
 ---
 
@@ -22,7 +27,7 @@ The ASRock BC-250 utilizes a semi-custom AMD Zen 2 + RDNA 2 APU with unified **1
 | **Operating System** | CachyOS (Arch-based, performance-optimized kernel) |
 | **Inference Engine** | `llama.cpp` (`llama-server`) with Vulkan backend |
 | **Primary LLM** | Gemma 4 26B (Quantized) + local RAG (`rag-mcp` / Open WebUI) |
-| **Remote Access** | Tailscale VPN (`100.95.138.9`) + SSH |
+| **Remote Access** | Tailscale VPN (`100.x.y.z`) + SSH |
 
 ---
 
@@ -37,8 +42,12 @@ By default, the BC-250 ships with restricted firmware intended for headless cryp
 3. **Unified GDDR6 Memory & Vulkan GTT Tuning:**
    - Configured dynamic memory allocation so Vulkan can address the unified GDDR6 pool without triggering Out-Of-Memory (OOM) crashes during large context or multimodal processing.
 
-> **[IMAGE PLACEHOLDER: BIOS / `neofetch` / `vulkaninfo` Verification]**  
-> *Replace this block with a screenshot showing the unlocked 8 cores, 24 CUs, and GDDR6 memory allocation (`docs/images/bios-settings.png`).*
+<p align="left">
+  <img src="images/CPU-cores.png" alt="8-Core CPU Unlock Verification" width="40%">
+  <img src="images/CU-unlock.png" alt="24 Compute Units Verification" width="50%">
+</p>
+
+
 
 ---
 
@@ -63,8 +72,7 @@ The BC-250 passive server heatsink requires high static-pressure airflow, especi
 - **Hardware Monitoring:**
   - Loaded kernel sensor modules (`nct6683` / `nct6687`) to expose thermal diodes and fan RPM telemetry to `lm_sensors` and CLI monitoring scripts.
 
-> **[IMAGE PLACEHOLDER: Custom Fan Duct & PWM Wiring Setup]**  
-> *Replace this block with a close-up photograph of the fan shroud, `CPU_FAN1` / `J4003` wiring, or PWM hub (`docs/images/cooling-fan-setup.jpg`).*
+
 
 ---
 
@@ -87,8 +95,10 @@ To make switching between low-power idle mode and full AI inference seamless ove
   - APU package temperature and real-time power draw (Watts)
   - CPU core residency in `C3` sleep states and GDDR6/GTT memory usage
 
-> **[IMAGE PLACEHOLDER: `servercheck` Terminal Output]**  
-> *Replace this block with a terminal screenshot showing `ai-on` and `servercheck` in action (`docs/images/servercheck-output.png`).*
+<img src="images/Servercheck.png" alt="Servercheck">
+
+
+
 
 ---
 
