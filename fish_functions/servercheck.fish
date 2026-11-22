@@ -14,15 +14,15 @@ function servercheck --description 'Visar realtidsstatus för tjänster, minne, 
         echo "$svc: "(systemctl is-active $svc)
     end
     
-    echo -e "\n=== 2. Tailscale-API (Port 8081 & 8005) ==="
+    echo -e "\n=== 2. Tailscale-API (Port ) ==="
     set -l ts_ip (tailscale ip -4 2>/dev/null)
     if test -n "$ts_ip"
-        echo "LLM Endpoint: http://$ts_ip:8081/v1"
-        echo "RAG Endpoint: http://$ts_ip:8005/sse"
+        echo "LLM Endpoint: http://$ts_ip:PORT/v1"
+        echo "RAG Endpoint: http://$ts_ip:PORT/sse"
     else
         echo "Tailscale IP: Ej ansluten"
     end
-    ss -tlnp | grep -E "8081|8005" || echo "Port 8081/8005 lyssnar INTE"
+    ss -tlnp | grep -E "PORT|PORT" || echo "Port PORT/PORT lyssnar INTE"
     
     echo -e "\n=== 3. RAM, GPU-GTT & Aktiv modell ==="
     free -h | grep -E "Mem:|Swap:"
@@ -32,7 +32,7 @@ function servercheck --description 'Visar realtidsstatus för tjänster, minne, 
     end
     set -l rss_kb (ps -o rss= -C llama-server 2>/dev/null | awk '{s+=$1} END {print s+0}')
     printf "llama-server RAM (RSS): %.0f MiB\n" (math "$rss_kb / 1024")
-    set -l model_id (curl -sf http://100.x.y.z:8081/v1/models | grep -o '"id":"[^"]*"' | head -n 1)
+    set -l model_id (curl -sf http://100.x.y.z:PORT/v1/models | grep -o '"id":"[^"]*"' | head -n 1)
     if test -n "$model_id"
         echo "Laddad modell: $model_id"
     else
@@ -46,7 +46,7 @@ function servercheck --description 'Visar realtidsstatus för tjänster, minne, 
         echo "Governor-intervall: $gov_min – $gov_max MHz"
     end
     
-    set -l is_proc (curl -sf http://100.95.138.9:8081/slots 2>/dev/null | grep -o '"is_processing":[^,]*' | head -n 1 | cut -d: -f2)
+    set -l is_proc (curl -sf http://100.x.y.z:PORT/slots 2>/dev/null | grep -o '"is_processing":[^,]*' | head -n 1 | cut -d: -f2)
     if test "$is_proc" = "true"
         echo "GPU-läge:           AKTIV Boost (upp till $gov_max MHz)"
     else if test "$is_proc" = "false"
