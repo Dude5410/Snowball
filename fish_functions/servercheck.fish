@@ -32,7 +32,7 @@ function servercheck --description 'Visar realtidsstatus för tjänster, minne, 
     end
     set -l rss_kb (ps -o rss= -C llama-server 2>/dev/null | awk '{s+=$1} END {print s+0}')
     printf "llama-server RAM (RSS): %.0f MiB\n" (math "$rss_kb / 1024")
-    set -l model_id (curl -sf http://100.95.138.9:8081/v1/models | grep -o '"id":"[^"]*"' | head -n 1)
+    set -l model_id (curl -sf http://100.x.y.z:8081/v1/models | grep -o '"id":"[^"]*"' | head -n 1)
     if test -n "$model_id"
         echo "Laddad modell: $model_id"
     else
