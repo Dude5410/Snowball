@@ -7,7 +7,7 @@
 The system is engineered to balance high-throughput local LLM inference (**Gemma 4 26B** via `llama-server` with the Vulkan backend) with minimal idle power consumption using custom SMU frequency locking, CPU C-state power management, and automated Fish shell control functions.
 
 <p align="left">
-  <img src="images/setup.png" alt="setup" width="54%">
+  <img src="images/setup.jpeg" alt="setup" width="54%">
   <img src="images/setup2.JPG" alt="setup" width="40%">
 </p>
 
@@ -22,23 +22,23 @@ The ASRock BC-250 utilizes a semi-custom AMD Zen 2 + RDNA 2 APU with unified **1
 | :--- | :--- |
 | **Motherboard / APU** | ASRock BC-250 (AMD Cyan Skillfish / Oberon APU) |
 | **CPU Architecture** | 8x Zen 2 Cores (Unlocked via BIOS mod) |
-| **GPU Architecture** | AMD RDNA 2 — 24 Compute Units (CUs) active (hardware limit) |
+| **GPU Architecture** | AMD RDNA 2 — 40 Compute Units (CUs) unlocked via kernel update|
 | **Memory** | 16 GB Unified GDDR6 (Dynamic VRAM / GTT allocation) |
 | **Operating System** | CachyOS (Arch-based, performance-optimized kernel) |
 | **Inference Engine** | `llama.cpp` (`llama-server`) with Vulkan backend |
-| **Primary LLM** | Gemma 4 26B (Quantized) + local RAG (`rag-mcp` / Open WebUI) |
+| **Primary LLM** | Gemma 4 26B-A4B (Quantized IQ3_XXS) + local RAG (`rag-mcp`) |
 | **Remote Access** | Tailscale VPN (`100.x.y.z`) + SSH |
 
 ---
 
-## BIOS Modding & Hardware Unlocking (8 Cores & 24 CUs)
+## BIOS Modding & Hardware Unlocking (8 Cores & 40 CUs)
 
 By default, the BC-250 ships with restricted firmware intended for headless cryptocurrency mining. To repurpose it as a general-purpose Linux AI server, the following firmware and topology configurations were applied:
 
 1. **8-Core CPU Unlock (`P3.00 MeiMeiDXE` BIOS Mod):**
    - Flashed the modified **P3.00 MeiMeiDXE** BIOS to unlock all **8 Zen 2 CPU cores** (up from the stock 6-core lock) and expose hidden AMD CBS/PBS power and memory configuration menus.
 2. **Compute Units (CUs) Topology:**
-   - Verified hardware topology: while the underlying die is related to the 36/40 CU PS5 silicon, the BC-250 APU has **24 active RDNA 2 Compute Units** physically fused at the silicon level.
+   - Verified hardware topology: while the underlying die is related to the 36/40 CU PS5 silicon, the BC-250 APU has **24 active RDNA 2 Compute Units of 40 possible ** physically fused at the silicon level. By running a kernel update can permenantly unlock all 40 CUs increasing approx 30% in throughput performance.
 3. **Unified GDDR6 Memory & Vulkan GTT Tuning:**
    - Configured dynamic memory allocation so Vulkan can address the unified GDDR6 pool without triggering Out-Of-Memory (OOM) crashes during large context or multimodal processing.
 
